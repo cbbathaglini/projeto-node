@@ -7,15 +7,13 @@ function tratamentoErro(erro){
 
 function pegaArquivo(caminhoDoArquivo){
     const encode = 'UTF-8';
-    fs.readFile(caminhoDoArquivo, encode, (erro, encontrado) => {
-        if(erro){
-            tratamentoErro(erro);
-        }
-        console.log(chalk.green(encontrado));
-    });
+    
+    //promises = código assíncrono
+    fs.promises.readFile(caminhoDoArquivo, encode)
+    .then((texto)=> console.log(chalk.green(texto)))//encadear código assíncrono
+    .catch( (erro) => tratamentoErro(erro));
+     
+
 }
 
-console.log("Arquivo 1: ");
-pegaArquivo("./arquivos/texto.md");
-console.log("ok \nArquivo 2: ");
-pegaArquivo("./arquivos/texto2.md");
+pegaArquivo("./arquivos/texto.md")
