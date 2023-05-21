@@ -6,19 +6,19 @@ const caminho = process.argv;
 
 async function processa(argumentos){
     const caminho = argumentos[2];
-    const valida = argumentos[3];
+    const valida = argumentos[3] === "--valida";
 
     try {
     
         if(verificarEhArquivo(caminho)){
             const resultado = await pegaArquivo(caminho);
-            imprime(resultado);
+            imprime(valida,resultado);
             return;
         }
     
         if(verificarEhDiretorio(caminho)){
             const listaArquivos = await fs.promises.readdir(caminho)
-            ehDiretorio(listaArquivos,caminho);
+            ehDiretorio(valida,listaArquivos,caminho);
         }
        
     } catch (error) {
@@ -29,20 +29,20 @@ async function processa(argumentos){
 
 }
 
-function imprime(valida, resultado, identificador = ""){
+async function imprime(valida, resultado, identificador = ""){
 
     if(valida){
-        console.log('lista validada' , identificador, listaValidada(resultado));
+        console.log('lista validada' , identificador, await listaValidada(resultado));
         return;
     }
     console.log(identificador , resultado);
     
 }
 
-function ehDiretorio(listaArquivos,caminho){
+async function ehDiretorio(valida, listaArquivos,caminho){
     listaArquivos.forEach(async (nomeArquivo) => {
         const lista = await pegaArquivo(`${caminho}/${nomeArquivo}`);
-        imprime(lista,nomeArquivo);
+        await imprime(valida,lista,nomeArquivo);
     });
 }
 
