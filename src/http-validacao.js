@@ -1,9 +1,15 @@
+import chalk from "chalk";
 
 async function checaStatus(listaUrls){
+
     const arrStatus = await Promise.all(
         listaUrls.map( async (url) => {
+            try{
             const response = await fetch(url);
             return response.status;
+            }catch(erro){
+                return tratamentoErros(erro);
+            }
         })
     );
     return arrStatus;
@@ -14,12 +20,25 @@ async function checaStatus(listaUrls){
  export default async function listaValidada(listaLinks){
     const listaUrls =  extraiLinks(listaLinks);
     const status = await checaStatus(listaUrls);
-    //console.log(status);
-    return status;
+
+    return listaUrls.map( (objeto, indice) => 
+        ({
+            objeto,
+            status: status[indice]
+        })
+    );
 }
 
 
 function extraiLinks(listaLinks){
-    //loops
     return listaLinks.map( (objetoLink) => Object.values(objetoLink).join());
+}
+
+
+function tratamentoErros(erro){
+    if(erro.cause.code === "ENOTFOUND"){
+        return "Link não encontrado";
+    }
+    return erro.cause.code;
+
 }
