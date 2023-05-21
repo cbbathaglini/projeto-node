@@ -1,10 +1,12 @@
 import pegaArquivo from "../index.js";
+import listaValidada from "./http-validacao.js"; 
 import fs from 'fs';
 
 const caminho = process.argv;
 
 async function processa(argumentos){
     const caminho = argumentos[2];
+    const valida = argumentos[3];
 
     try {
     
@@ -27,8 +29,14 @@ async function processa(argumentos){
 
 }
 
-function imprime(resultado, identificador = ""){
+function imprime(valida, resultado, identificador = ""){
+
+    if(valida){
+        console.log('lista validada' , identificador, listaValidada(resultado));
+        return;
+    }
     console.log(identificador , resultado);
+    
 }
 
 function ehDiretorio(listaArquivos,caminho){
