@@ -18,7 +18,9 @@ async function pegaArquivo(caminhoDoArquivo){
     tratamento( retorno,null); 
     }catch(error){
         console.log(tratamento(null,error)); 
+    }finally{
+        console.log("Dando erro ou não, sempre cai aqui")
     }
 }
 
-pegaArquivo("./arquivos/texto.md")
+pegaArquivo("./arquivos/texto2.md")
