@@ -1,21 +1,11 @@
-//const chalk = require('chalk'); //versões anteriores
+import fs from 'fs';
 import chalk from 'chalk';
 
+function pegaArquivo(caminhoDoArquivo){
+    const encode = 'UTF-8';
+    fs.readFile(caminhoDoArquivo, encode, (_, encontrado) => {
+        console.log(chalk.green(encontrado));
+    });
+}
 
-console.log(chalk.blue('olá mundo'));
-
-console.log('São geralmente recuperados a partir de um ...');
-
-
-//encadear métodos para colorir texto, cor de fundo e texto em negrito
-console.log(chalk.blue.bgWhite.bold('Alura'));
-//receber múltiplos argumentos
-console.log(chalk.blue('curso', 'de', 'Node.js'));
-//métodos aninhados
-console.log(chalk.red('vermelho', chalk.underline.bgBlue('azul')));
-// uso de template strings e placeholders
-console.log(`
-CPU: ${chalk.red('90%')}
-RAM: ${chalk.green('40%')}
-DISK: ${chalk.yellow('70%')}
-`);
+pegaArquivo("./arquivos/texto.md");
